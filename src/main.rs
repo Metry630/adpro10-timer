@@ -14,6 +14,7 @@ use std::{
     time::Duration,
 };
 
+
 fn main() {
     let (executor, spawner) = new_executor_and_spawner();
 
@@ -24,12 +25,24 @@ fn main() {
         TimerFuture::new(Duration::new(2, 0)).await;
         println!("Halo ini komputer jojo selesai");
     });
-
-    println!("Halo ini komputer jojo hey hey");
+    spawner.spawn(async {
+        println!("Halo ini komputer jojo2");
+        // Wait for our timer future to complete after two seconds.
+        TimerFuture::new(Duration::new(2, 0)).await;
+        println!("Halo ini komputer jojo selesai2");
+    });
+    spawner.spawn(async {
+        println!("Halo ini komputer jojo3");
+        // Wait for our timer future to complete after two seconds.
+        TimerFuture::new(Duration::new(2, 0)).await;
+        println!("Halo ini komputer jojo selesa3");
+    });
+    
 
     // Drop the spawner so that our executor knows it is finished and won't
     // receive more incoming tasks to run.
-    drop(spawner);
+    println!("Halo ini komputer jojo hey hey");
+    // drop(spawner);
 
     // Run the executor until the task queue is empty.
     // This will print "howdy!", pause, and then print "done!".
